@@ -3,27 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Fighter
 {
-    [SerializeField] private HitPointBar HP_bar;
-    [SerializeField] private float HitPointsMax;
-    [SerializeField] private float HitPointsCurrent;
-    
+    private Vector3 _currentLookVector;
+    private Vector3 _currentVelocity;
     void Start()
     {
         HitPointsCurrent = HitPointsMax;
         HP_bar.ResetValue(HitPointsMax.ToString());
+        _currentLookVector = transform.forward;
     }
 
-    void Update()
+    protected override void Update()
     {
-        
+        base.Update();
+        Rotation();
     }
 
-    public void TakeHit(float hit)
+    private void Rotation()
     {
-        HitPointsCurrent -= hit;
-        float alpha = HitPointsCurrent / HitPointsMax;
-        HP_bar.ChangeValue(HitPointsCurrent.ToString(), alpha);
+        Vector3 rotationTarget = (Opponent.transform.position - transform.position).normalized;
+        rotationTarget = new Vector3(rotationTarget.x, 0, rotationTarget.z);
+        _currentLookVector = Vector3.SmoothDamp(_currentLookVector, rotationTarget, ref _currentVelocity, AnimSmoothTime);
+
+        transform.rotation = Quaternion.LookRotation(_currentLookVector);
     }
+
 }
