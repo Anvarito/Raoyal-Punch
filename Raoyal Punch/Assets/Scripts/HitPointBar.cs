@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class HitPointBar : MonoBehaviour
 {
     [SerializeField] private Slider HP_bar;
+    [SerializeField] private GameObject HpBarContent;
     [SerializeField] private Text HP_text;
 
     void Update()
@@ -19,6 +20,10 @@ public class HitPointBar : MonoBehaviour
         HP_bar.value = 1;
     }
 
+    public void SetBarVisible(bool visible)
+    {
+        HpBarContent.gameObject.SetActive(visible);
+    }
     internal void ChangeValue(string hp, float alpha)
     {
         HP_text.text = hp;

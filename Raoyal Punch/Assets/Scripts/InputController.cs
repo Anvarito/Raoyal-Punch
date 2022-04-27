@@ -9,6 +9,8 @@ public class InputController : MonoBehaviour
     public Vector2 move { get; private set; }
 
     private PlayerInput inputs;
+
+    public static bool testTrigger = false;
     private void OnEnable()
     {
         inputs.Player.Enable();
@@ -25,5 +27,12 @@ public class InputController : MonoBehaviour
 
         inputs.Player.Move.performed += context => move = context.ReadValue<Vector2>();
         inputs.Player.Move.canceled += context => move = Vector2.zero;
+
+
+    }
+
+    private void Update()
+    {
+        testTrigger = inputs.Player.Test.triggered;
     }
 }

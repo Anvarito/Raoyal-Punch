@@ -1,11 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 [RequireComponent(typeof(Animator))]
-public class Fighter : MonoBehaviour
+public abstract class Fighter : MonoBehaviour
 {
     [SerializeField] protected Fighter Opponent;
+    [SerializeField] protected float VisibleTreshold;
 
     [Header("Animation")]
     [SerializeField] protected float AnimSmoothTime;
@@ -20,49 +24,122 @@ public class Fighter : MonoBehaviour
     [Header("Punch")]
     [SerializeField] protected float AttackDistance;
     [SerializeField] protected float HitPower = 10;
-    private bool opponentTakeHit = false;
+    private bool enemyInPunchZone = false;
 
+    [Header("Ragdoll")]
+    [SerializeField] protected Collider MainCollider;
+    [SerializeField] protected Rigidbody HeadRigidbody;
+    [SerializeField] protected Rigidbody[] rigidbodies;
+    [SerializeField] protected Collider[] colliders;
+    [SerializeField] protected Transform Armature;
+    [SerializeField] protected Transform Hips;
+
+    protected Vector3[] bonesCapturePos = new Vector3[11];
+    protected Quaternion[] bonesCaptureRot = new Quaternion[11];
+    
+
+    public static Action<Fighter> OnFighterDefeat;
+    protected bool fighterDown = false;
     protected virtual void Awake()
     {
         _animator = GetComponent<Animator>();
+        AssignAnimationToHash();
+    }
+
+    protected virtual void AssignAnimationToHash()
+    {
         _fightAnimID = Animator.StringToHash("fight");
     }
-    void Start()
+    protected virtual void Start()
     {
-        
+        HitPointsCurrent = HitPointsMax;
+        HP_bar.ResetValue(HitPointsMax.ToString());
+
+        MainCollider.enabled = true;
+
+        for (int i = 0; i < rigidbodies.Length; i++)
+        {
+            rigidbodies[i].isKinematic = true;
+            colliders[i].enabled = false;
+        }
     }
 
-    // Update is called once per frame
     protected virtual void Update()
     {
-        AttackChecker();
+        if (Game.GetGameState() == EGameState.inFight)
+        {
+            AttackChecker();
+            Movement();
+        }
     }
 
+    protected abstract void Movement();
     private void TakeHit(float hit)
     {
         HitPointsCurrent -= hit;
-        float alpha = HitPointsCurrent / HitPointsMax;
-        HP_bar.ChangeValue(HitPointsCurrent.ToString(), alpha);
+        HitPointsCurrent = Mathf.Clamp(HitPointsCurrent, 0, HitPointsMax);
+        float value = HitPointsCurrent / HitPointsMax;
+        HP_bar.ChangeValue(HitPointsCurrent.ToString(), value);
+
+        if (HitPointsCurrent == 0 && !fighterDown)
+        {
+            OnFighterDefeat?.Invoke(this);
+            EnableRagdoll();
+            HeadRigidbody.AddForce((HeadRigidbody.transform.position - Opponent.transform.position).normalized * 100, ForceMode.Impulse);
+        }
+    }
+
+    protected void EnableRagdoll()
+    {
+        fighterDown = true;
+        _animator.SetBool(_fightAnimID, false);
+        for (int i = 0; i < rigidbodies.Length; i++)
+        {
+            rigidbodies[i].isKinematic = false;
+            rigidbodies[i].useGravity = true;
+            colliders[i].enabled = true;
+            bonesCapturePos[i] = rigidbodies[i].transform.localPosition;
+            bonesCaptureRot[i] = rigidbodies[i].transform.localRotation;
+        }
+        MainCollider.enabled = false;
+        _animator.enabled = false;
+        Hips.transform.parent = null;
     }
 
     private void AttackChecker()
     {
-        var distance = Vector3.Distance(transform.position, Opponent.transform.position);
-        bool isVisibleRange = Vector3.Dot(transform.forward, (Opponent.transform.position - transform.position).normalized) > 0.2f;
+        var distance = GetDistantToOpponent();
+        bool isVisibleRange = IsOpponentInVisible();
 
-        opponentTakeHit = distance < AttackDistance && isVisibleRange;
+        enemyInPunchZone = distance < AttackDistance && isVisibleRange;
 
-        _animator.SetBool(_fightAnimID, opponentTakeHit);
+        _animator.SetBool(_fightAnimID, enemyInPunchZone);
+    }
+
+    protected float GetDistantToOpponent()
+    {
+        float distance = Vector3.Distance(transform.position, Opponent.transform.position);
+        return distance;
+    }
+
+    protected bool IsOpponentInVisible()
+    {
+        return Vector3.Dot(transform.forward, (Opponent.transform.position - transform.position).normalized) > VisibleTreshold;
     }
 
     //Called in event from animation
     public void Punch()
     {
-        if (!opponentTakeHit)
+        if (!enemyInPunchZone || Game.GetGameState() != EGameState.inFight)
         {
             return;
         }
 
         Opponent.TakeHit(HitPower);
+    }
+
+    public virtual void GameFinised()
+    {
+
     }
 }
