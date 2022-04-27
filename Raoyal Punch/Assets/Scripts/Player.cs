@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(InputController))]
+[RequireComponent(typeof(CharacterController))]
 public class Player : Fighter
 {
     [Header("Movement")]
@@ -10,6 +11,7 @@ public class Player : Fighter
     [SerializeField] private float DuractionGetUp = 1.5f;
 
     private InputController _inputController;
+    private CharacterController _characterController;
 
     private Vector2 _animationSmoothBlend;
     private Vector2 _currentVelocity;
@@ -30,6 +32,7 @@ public class Player : Fighter
     {
         base.Awake();
         _inputController = GetComponent<InputController>();
+        _characterController = GetComponent<CharacterController>();
     }
 
 
@@ -45,7 +48,8 @@ public class Player : Fighter
         _animationSmoothBlend = Vector2.SmoothDamp(_animationSmoothBlend, _inputController.move, ref _currentVelocity, AnimSmoothTime);
         Vector3 moveDirection = new Vector3(_animationSmoothBlend.x, 0, _animationSmoothBlend.y);
 
-        transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
+        Vector3 dir = transform.TransformDirection(moveDirection);
+        _characterController.Move(dir * moveSpeed * Time.deltaTime);
 
         Vector3 rotationTarget = (Opponent.transform.position - transform.position).normalized;
         rotationTarget = new Vector3(rotationTarget.x, 0, rotationTarget.z);
@@ -94,13 +98,15 @@ public class Player : Fighter
             _animator.SetFloat(_moveXAnimID, 0);
             _animator.SetFloat(_moveZAnimID, 0);
             _fighterDown = false;
+
+            _characterController.enabled = true;
         }
     }
 
     public void TakeShockWave(float hitPoint)
     {
         TakeHit(hitPoint);
-
+        _characterController.enabled = false;
         if (_fighterDown)
             return;
         EnableRagdoll();

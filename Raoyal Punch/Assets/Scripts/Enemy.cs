@@ -8,8 +8,6 @@ public class Enemy : Fighter
     private Vector3 _currentLookVector;
     private Vector3 _currentVelocity;
 
-    private float _timeTosuperPunch = 0;
-    private float _durationToSuperPunch = 12;
 
     private bool _isSuperPunch = false;
     private int _superPunch5;
@@ -17,6 +15,8 @@ public class Enemy : Fighter
     [Header("Boss special")]
     [SerializeField] private float SuperPunchDistance = 10;
     [SerializeField] private float ShokWavePower = 20;
+    private float _timeTosuperPunch = 0;
+    [SerializeField] private float _durationToSuperPunch = 12;
 
     private Player _player;
     protected override void Start()

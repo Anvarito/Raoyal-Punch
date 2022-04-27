@@ -1149,6 +1149,7 @@ MonoBehaviour:
   Hips: {fileID: 3551461747077602786}
   SuperPunchDistance: 10
   ShokWavePower: 20
+  _durationToSuperPunch: 5
 --- !u!114 &1532844926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1978,6 +1979,7 @@ GameObject:
   - component: {fileID: 396914258}
   - component: {fileID: 396914259}
   - component: {fileID: 396914261}
+  - component: {fileID: 5866666021195900704}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1997,6 +1999,7 @@ GameObject:
   - component: {fileID: 5866666020921216932}
   - component: {fileID: 1532844925}
   - component: {fileID: 1532844926}
+  - component: {fileID: 5866666020921216933}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -3830,6 +3833,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!136 &5866666020921216933
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132149071777636}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.89256483
+  m_Height: 4.9396725
+  m_Direction: 1
+  m_Center: {x: 0, y: 2.4465203, z: 0.16824202}
 --- !u!95 &5866666021195900703
 Animator:
   serializedVersion: 4
@@ -3850,6 +3867,24 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!143 &5866666021195900704
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148801333215}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 4.94
+  m_Radius: 0.99
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 2.49, z: 0}
 --- !u!4 &5920399811888003097
 Transform:
   m_ObjectHideFlags: 0
