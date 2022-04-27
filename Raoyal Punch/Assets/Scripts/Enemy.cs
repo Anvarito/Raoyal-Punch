@@ -73,7 +73,7 @@ public class Enemy : Fighter
     public void CooldownIsOver()
     {
         _isSuperPunch = false;
-        _durationToSuperPunch = 0;
+        _timeTosuperPunch = 0;
     }
 
     //Called in event from animation

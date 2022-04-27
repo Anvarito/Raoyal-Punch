@@ -7,11 +7,12 @@ public class HitPointBar : MonoBehaviour
     [SerializeField] private Slider HP_bar;
     [SerializeField] private GameObject HpBarContent;
     [SerializeField] private Text HP_text;
+    [SerializeField] private Vector3 PositionMod;
 
     void Update()
     {
         var pointInScreen = Camera.main.WorldToScreenPoint(transform.position);
-        HP_bar.transform.position = pointInScreen;
+        HP_bar.transform.position = pointInScreen + PositionMod;
     }
 
     public void ResetValue(string maxHP)

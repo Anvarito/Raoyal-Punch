@@ -522,7 +522,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 1808346959}
   m_HandleRect: {fileID: 0}
@@ -610,6 +610,7 @@ MonoBehaviour:
   HP_bar: {fileID: 382472986}
   HpBarContent: {fileID: 2143074845}
   HP_text: {fileID: 1562399896}
+  PositionMod: {x: 0, y: -40, z: 0}
 --- !u!136 &396914263
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -951,7 +952,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 1861108538}
   m_HandleRect: {fileID: 0}
@@ -1192,6 +1193,7 @@ MonoBehaviour:
   HP_bar: {fileID: 1036346427}
   HpBarContent: {fileID: 2076268205}
   HP_text: {fileID: 160109332}
+  PositionMod: {x: 0, y: 120, z: 0}
 --- !u!1 &1562399894
 GameObject:
   m_ObjectHideFlags: 0
