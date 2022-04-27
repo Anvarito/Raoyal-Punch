@@ -21,8 +21,8 @@ public class Player : Fighter
     private int _winAnimID;
 
 
-   // private bool _isShock = false;
-    private bool _isGetUp = false;
+    // private bool _isShock = false;
+    private bool _isReadyToGetUp = false;
 
     private float _timerGetUpCurrent = 0;
 
@@ -35,7 +35,16 @@ public class Player : Fighter
         _characterController = GetComponent<CharacterController>();
     }
 
-
+    public override void ResetGame()
+    {
+        base.ResetGame();
+        _characterController.enabled = true;
+        _animator.SetLayerWeight(1, 1);
+        _animator.SetLayerWeight(2, 1);
+        _animator.SetLayerWeight(3, 0);
+        _animator.SetBool(_winAnimID, false);
+        _animator.SetBool(_fightAnimID, false);
+    }
     protected override void AssignAnimationToHash()
     {
         base.AssignAnimationToHash();
@@ -61,21 +70,14 @@ public class Player : Fighter
 
     protected override void Update()
     {
-        if (_isGetUp)
+        if (_isReadyToGetUp)
         {
             PlayerGetUp();
         }
         else
         {
 
-            if (!_fighterDown)
-            {
-                base.Update();
-            }
-            else
-            {
-                transform.position = new Vector3(Hips.position.x, 0, Hips.position.z);
-            }
+            base.Update();
         }
     }
 
@@ -92,12 +94,12 @@ public class Player : Fighter
 
         if (alpha >= 1)
         {
-            _isGetUp = false;
+            _isReadyToGetUp = false;
             _animator.enabled = true;
 
             _animator.SetFloat(_moveXAnimID, 0);
             _animator.SetFloat(_moveZAnimID, 0);
-            _fighterDown = false;
+            _isfighterDown = false;
 
             _characterController.enabled = true;
         }
@@ -107,11 +109,17 @@ public class Player : Fighter
     {
         TakeHit(hitPoint);
         _characterController.enabled = false;
-        if (_fighterDown)
+        if (_isfighterDown)
             return;
         EnableRagdoll();
         HeadRigidbody.AddForce((HeadRigidbody.transform.position - Opponent.transform.position).normalized * 100, ForceMode.Impulse);
         StartCoroutine(ShokWaveCooldown());
+    }
+
+    protected override void EnableRagdoll()
+    {
+        _characterController.enabled = false;
+        base.EnableRagdoll();
     }
 
     //Get Up
@@ -119,8 +127,9 @@ public class Player : Fighter
     {
         yield return new WaitForSeconds(2);
         _timerGetUpCurrent = 0;
+        transform.position = new Vector3(Hips.position.x, 0, Hips.position.z);
         Hips.transform.parent = Armature.transform;
-        _isGetUp = true;
+        _isReadyToGetUp = true;
 
         for (int i = 0; i < bonesCapturePos.Length; i++)
         {
@@ -131,12 +140,13 @@ public class Player : Fighter
             colliders[i].enabled = false;
         }
     }
-    public override void GameFinised()
+    public override void FighterWin()
     {
+        base.FighterWin();
         _animator.SetLayerWeight(1, 0);
         _animator.SetLayerWeight(2, 0);
+        _animator.SetLayerWeight(3, 1);
         _animator.SetBool(_winAnimID, true);
-        _animator.SetBool(_fightAnimID, false);
     }
 
 }

@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class Enemy : Fighter
 {
+
+    private CapsuleCollider _collider;
+
     private Vector3 _currentLookVector;
     private Vector3 _currentVelocity;
 
@@ -25,12 +28,19 @@ public class Enemy : Fighter
 
         _player = Opponent as Player;
         _currentLookVector = transform.forward;
+        _collider = GetComponent<CapsuleCollider>();
     }
 
     protected override void AssignAnimationToHash()
     {
         base.AssignAnimationToHash();
         _superPunch5 = Animator.StringToHash("super5");
+    }
+
+    public override void ResetGame()
+    {
+        GetComponent<Collider>().enabled = true;
+        base.ResetGame();
     }
 
     protected override void Update()
@@ -59,6 +69,12 @@ public class Enemy : Fighter
         }
     }
 
+    protected override void EnableRagdoll()
+    {
+        GetComponent<Collider>().enabled = false;
+        base.EnableRagdoll();
+    }
+
     //Called in event from animation
     public void SuperPunchAnimPause()
     {
@@ -85,11 +101,6 @@ public class Enemy : Fighter
         {
             _player.TakeShockWave(ShokWavePower);
         }
-    }
-
-    public override void GameFinised()
-    {
-        _animator.SetBool(_fightAnimID, false);
     }
 
     protected override void Movement()

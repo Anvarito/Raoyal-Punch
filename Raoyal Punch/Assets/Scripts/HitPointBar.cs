@@ -15,7 +15,7 @@ public class HitPointBar : MonoBehaviour
         HP_bar.transform.position = pointInScreen + PositionMod;
     }
 
-    public void ResetValue(string maxHP)
+    public void SetValue(string maxHP)
     {
         HP_text.text = maxHP;
         HP_bar.value = 1;
