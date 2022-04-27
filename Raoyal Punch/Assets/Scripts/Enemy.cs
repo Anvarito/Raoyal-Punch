@@ -22,6 +22,8 @@ public class Enemy : Fighter
     [SerializeField] private float _durationToSuperPunch = 12;
 
     private Player _player;
+
+    public bool PLAYERNEAR = false;
     protected override void Start()
     {
         base.Start();
@@ -53,6 +55,7 @@ public class Enemy : Fighter
 
                 if (GetDistantToOpponent() < SuperPunchDistance)
                 {
+                    PLAYERNEAR = true;
                     _timeTosuperPunch += Time.deltaTime;
                     if (_timeTosuperPunch > _durationToSuperPunch)
                     {
@@ -63,6 +66,7 @@ public class Enemy : Fighter
                 }
                 else
                 {
+                    PLAYERNEAR = false;
                     _timeTosuperPunch = 0;
                 }
             }
