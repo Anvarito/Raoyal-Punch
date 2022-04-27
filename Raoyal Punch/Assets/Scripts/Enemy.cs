@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(CapsuleCollider))]
+[RequireComponent(typeof(ShokWaveVisual))]
 public class Enemy : Fighter
 {
 
@@ -20,6 +22,7 @@ public class Enemy : Fighter
     [SerializeField] private float ShokWavePower = 20;
     private float _timeTosuperPunch = 0;
     [SerializeField] private float _durationToSuperPunch = 12;
+    private ShokWaveVisual _shokWaveVisual;
 
     private Player _player;
 
@@ -31,6 +34,7 @@ public class Enemy : Fighter
         _player = Opponent as Player;
         _currentLookVector = transform.forward;
         _collider = GetComponent<CapsuleCollider>();
+        _shokWaveVisual = GetComponent<ShokWaveVisual>();
     }
 
     protected override void AssignAnimationToHash()
@@ -47,7 +51,7 @@ public class Enemy : Fighter
 
     protected override void Update()
     {
-        if (Game.GetGameState() == EGameState.inFight )
+        if (Game.GetGameState() == EGameState.inFight)
         {
             if (!_isSuperPunch)
             {
@@ -62,6 +66,7 @@ public class Enemy : Fighter
                         _timeTosuperPunch = 0;
                         _isSuperPunch = true;
                         _animator.SetTrigger(_superPunch5);
+                        _shokWaveVisual.Launch();
                     }
                 }
                 else
@@ -101,6 +106,8 @@ public class Enemy : Fighter
     //Called in event from animation
     public void SupePunchShockWave()
     {
+        _shokWaveVisual.CircleHide();
+
         if (GetDistantToOpponent() < SuperPunchDistance)
         {
             _player.TakeShockWave(ShokWavePower);
