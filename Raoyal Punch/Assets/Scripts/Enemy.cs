@@ -14,7 +14,9 @@ public class Enemy : Fighter
     private bool _isSuperPunch = false;
     private int _superPunch5;
 
+    [Header("Boss special")]
     [SerializeField] private float SuperPunchDistance = 10;
+    [SerializeField] private float ShokWavePower = 20;
 
     private Player _player;
     protected override void Start()
@@ -81,7 +83,7 @@ public class Enemy : Fighter
     {
         if (GetDistantToOpponent() < SuperPunchDistance)
         {
-            _player.TakeShockWave();
+            _player.TakeShockWave(ShokWavePower);
         }
     }
 

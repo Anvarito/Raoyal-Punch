@@ -24,10 +24,10 @@ public abstract class Fighter : MonoBehaviour
     [Header("Punch")]
     [SerializeField] protected float AttackDistance;
     [SerializeField] protected float HitPower = 10;
-    private bool enemyInPunchZone = false;
+    private bool _enemyInPunchZone = false;
 
     [Header("Ragdoll")]
-    [SerializeField] protected Collider MainCollider;
+    //[SerializeField] protected Collider MainCollider;
     [SerializeField] protected Rigidbody HeadRigidbody;
     [SerializeField] protected Rigidbody[] rigidbodies;
     [SerializeField] protected Collider[] colliders;
@@ -39,7 +39,7 @@ public abstract class Fighter : MonoBehaviour
     
 
     public static Action<Fighter> OnFighterDefeat;
-    protected bool fighterDown = false;
+    protected bool _fighterDown = false;
     protected virtual void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -55,7 +55,7 @@ public abstract class Fighter : MonoBehaviour
         HitPointsCurrent = HitPointsMax;
         HP_bar.ResetValue(HitPointsMax.ToString());
 
-        MainCollider.enabled = true;
+        //MainCollider.enabled = true;
 
         for (int i = 0; i < rigidbodies.Length; i++)
         {
@@ -74,14 +74,14 @@ public abstract class Fighter : MonoBehaviour
     }
 
     protected abstract void Movement();
-    private void TakeHit(float hit)
+    protected void TakeHit(float hit)
     {
         HitPointsCurrent -= hit;
         HitPointsCurrent = Mathf.Clamp(HitPointsCurrent, 0, HitPointsMax);
         float value = HitPointsCurrent / HitPointsMax;
         HP_bar.ChangeValue(HitPointsCurrent.ToString(), value);
 
-        if (HitPointsCurrent == 0 && !fighterDown)
+        if (HitPointsCurrent == 0 && !_fighterDown)
         {
             OnFighterDefeat?.Invoke(this);
             EnableRagdoll();
@@ -91,7 +91,7 @@ public abstract class Fighter : MonoBehaviour
 
     protected void EnableRagdoll()
     {
-        fighterDown = true;
+        _fighterDown = true;
         _animator.SetBool(_fightAnimID, false);
         for (int i = 0; i < rigidbodies.Length; i++)
         {
@@ -101,7 +101,7 @@ public abstract class Fighter : MonoBehaviour
             bonesCapturePos[i] = rigidbodies[i].transform.localPosition;
             bonesCaptureRot[i] = rigidbodies[i].transform.localRotation;
         }
-        MainCollider.enabled = false;
+        //MainCollider.enabled = false;
         _animator.enabled = false;
         Hips.transform.parent = null;
     }
@@ -111,9 +111,9 @@ public abstract class Fighter : MonoBehaviour
         var distance = GetDistantToOpponent();
         bool isVisibleRange = IsOpponentInVisible();
 
-        enemyInPunchZone = distance < AttackDistance && isVisibleRange;
+        _enemyInPunchZone = distance < AttackDistance && isVisibleRange;
 
-        _animator.SetBool(_fightAnimID, enemyInPunchZone);
+        _animator.SetBool(_fightAnimID, _enemyInPunchZone);
     }
 
     protected float GetDistantToOpponent()
@@ -130,7 +130,7 @@ public abstract class Fighter : MonoBehaviour
     //Called in event from animation
     public void Punch()
     {
-        if (!enemyInPunchZone || Game.GetGameState() != EGameState.inFight)
+        if (!_enemyInPunchZone || Game.GetGameState() != EGameState.inFight)
         {
             return;
         }

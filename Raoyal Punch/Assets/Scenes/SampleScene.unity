@@ -553,7 +553,6 @@ MonoBehaviour:
   HitPointsMax: 100
   AttackDistance: 4
   HitPower: 10
-  MainCollider: {fileID: 396914263}
   HeadRigidbody: {fileID: 7208261743508971336}
   rigidbodies:
   - {fileID: 3551461746777765211}
@@ -582,7 +581,7 @@ MonoBehaviour:
   Armature: {fileID: 8879528567166889467}
   Hips: {fileID: 3551461746777765209}
   moveSpeed: 9
-  DuractionGetUp: 0.7
+  DuractionGetUp: 0.4
 --- !u!114 &396914259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -611,20 +610,6 @@ MonoBehaviour:
   HpBarContent: {fileID: 2143074845}
   HP_text: {fileID: 1562399896}
   PositionMod: {x: 0, y: -40, z: 0}
---- !u!136 &396914263
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132148801333215}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.82
-  m_Height: 4.89
-  m_Direction: 1
-  m_Center: {x: 0, y: 2.51, z: 0}
 --- !u!1 &508263241
 GameObject:
   m_ObjectHideFlags: 0
@@ -1116,20 +1101,6 @@ MonoBehaviour:
   m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
---- !u!136 &1532844924
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132149071777636}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 1.1280627
-  m_Height: 5.1233935
-  m_Direction: 1
-  m_Center: {x: 0, y: 2.463899, z: 0.13647787}
 --- !u!114 &1532844925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1146,10 +1117,9 @@ MonoBehaviour:
   VisibleTreshold: 0.2
   AnimSmoothTime: 0.8
   HP_bar: {fileID: 1532844926}
-  HitPointsMax: 3
+  HitPointsMax: 235235
   AttackDistance: 4
   HitPower: 10
-  MainCollider: {fileID: 1532844924}
   HeadRigidbody: {fileID: 7208261743209003008}
   rigidbodies:
   - {fileID: 3551461747077602787}
@@ -1178,6 +1148,7 @@ MonoBehaviour:
   Armature: {fileID: 8879528567437460800}
   Hips: {fileID: 3551461747077602786}
   SuperPunchDistance: 10
+  ShokWavePower: 20
 --- !u!114 &1532844926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2004,7 +1975,6 @@ GameObject:
   m_Component:
   - component: {fileID: 543450652987211109}
   - component: {fileID: 5866666021195900703}
-  - component: {fileID: 396914263}
   - component: {fileID: 396914258}
   - component: {fileID: 396914259}
   - component: {fileID: 396914261}
@@ -2025,7 +1995,6 @@ GameObject:
   m_Component:
   - component: {fileID: 543450652741785054}
   - component: {fileID: 5866666020921216932}
-  - component: {fileID: 1532844924}
   - component: {fileID: 1532844925}
   - component: {fileID: 1532844926}
   m_Layer: 0

@@ -19,7 +19,7 @@ public class Player : Fighter
     private int _winAnimID;
 
 
-    private bool _isShock = false;
+   // private bool _isShock = false;
     private bool _isGetUp = false;
 
     private float _timerGetUpCurrent = 0;
@@ -64,7 +64,7 @@ public class Player : Fighter
         else
         {
 
-            if (!_isShock)
+            if (!_fighterDown)
             {
                 base.Update();
             }
@@ -90,17 +90,19 @@ public class Player : Fighter
         {
             _isGetUp = false;
             _animator.enabled = true;
-            MainCollider.enabled = true;
 
             _animator.SetFloat(_moveXAnimID, 0);
             _animator.SetFloat(_moveZAnimID, 0);
-            _isShock = false;
+            _fighterDown = false;
         }
     }
 
-    public void TakeShockWave()
+    public void TakeShockWave(float hitPoint)
     {
-        _isShock = true;
+        TakeHit(hitPoint);
+
+        if (_fighterDown)
+            return;
         EnableRagdoll();
         HeadRigidbody.AddForce((HeadRigidbody.transform.position - Opponent.transform.position).normalized * 100, ForceMode.Impulse);
         StartCoroutine(ShokWaveCooldown());
