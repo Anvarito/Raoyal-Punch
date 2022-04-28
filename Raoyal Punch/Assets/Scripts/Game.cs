@@ -60,8 +60,8 @@ public class Game : MonoBehaviour
         if (_isLaunchCurtain)
         {
             _timerCurtain += Time.deltaTime;
-            _timerCurtain = Mathf.Clamp(_timerCurtain, 0, _durationCurtain);
-            var time = _timerCurtain / _durationCurtain;
+            _timerCurtain = Mathf.Clamp(_timerCurtain, 0, (_durationCurtain * 2));
+            var time = _timerCurtain / (_durationCurtain * 2);
             var value = Evaluate.Evaluate(time);
             Curtain.color = new Color(0, 0, 0, value);
 
@@ -93,6 +93,7 @@ public class Game : MonoBehaviour
     {
         RestartButton.gameObject.SetActive(false);
         _isLaunchCurtain = true;
+        _timerCurtain = 0;
         StartCoroutine(CameraAwait());
     }
 
