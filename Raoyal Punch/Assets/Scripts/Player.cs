@@ -75,7 +75,6 @@ public class Player : Fighter
         }
         else
         {
-
             base.Update();
         }
     }

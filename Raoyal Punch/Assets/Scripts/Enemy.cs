@@ -7,12 +7,12 @@ using UnityEngine.UI;
 [RequireComponent(typeof(ShokWaveVisual))]
 public class Enemy : Fighter
 {
-
-    private CapsuleCollider _collider;
+    private Player _player;
 
     private Vector3 _currentLookVector;
     private Vector3 _currentVelocity;
 
+    private CapsuleCollider _capsuleCollider;
 
     private bool _isSuperPunch = false;
     private int _superPunch5;
@@ -24,29 +24,28 @@ public class Enemy : Fighter
     [SerializeField] private float _durationToSuperPunch = 12;
     private ShokWaveVisual _shokWaveVisual;
 
-    private Player _player;
-
-    public bool PLAYERNEAR = false;
     protected override void Start()
     {
         base.Start();
 
         _player = Opponent as Player;
         _currentLookVector = transform.forward;
-        _collider = GetComponent<CapsuleCollider>();
         _shokWaveVisual = GetComponent<ShokWaveVisual>();
+        _capsuleCollider = GetComponent<CapsuleCollider>();
     }
 
     protected override void AssignAnimationToHash()
     {
         base.AssignAnimationToHash();
         _superPunch5 = Animator.StringToHash("super5");
+
     }
 
     public override void ResetGame()
     {
-        GetComponent<Collider>().enabled = true;
         base.ResetGame();
+        _capsuleCollider.enabled = true;
+        _shokWaveVisual.ResetAll();
     }
 
     protected override void Update()
@@ -59,7 +58,6 @@ public class Enemy : Fighter
 
                 if (GetDistantToOpponent() < SuperPunchDistance)
                 {
-                    PLAYERNEAR = true;
                     _timeTosuperPunch += Time.deltaTime;
                     if (_timeTosuperPunch > _durationToSuperPunch)
                     {
@@ -71,7 +69,6 @@ public class Enemy : Fighter
                 }
                 else
                 {
-                    PLAYERNEAR = false;
                     _timeTosuperPunch = 0;
                 }
             }
@@ -80,7 +77,9 @@ public class Enemy : Fighter
 
     protected override void EnableRagdoll()
     {
-        GetComponent<Collider>().enabled = false;
+        ResetSuperPunchParameters();
+        _shokWaveVisual.ResetAll();
+        _capsuleCollider.enabled = false;
         base.EnableRagdoll();
     }
 
@@ -97,7 +96,7 @@ public class Enemy : Fighter
         _animator.speed = 1;
     }
     //Called in event from animation
-    public void CooldownIsOver()
+    public void ResetSuperPunchParameters()
     {
         _isSuperPunch = false;
         _timeTosuperPunch = 0;
@@ -121,5 +120,11 @@ public class Enemy : Fighter
         _currentLookVector = Vector3.SmoothDamp(_currentLookVector, rotationTarget, ref _currentVelocity, AnimSmoothTime);
 
         transform.rotation = Quaternion.LookRotation(_currentLookVector);
+    }
+
+    public override void FighterWin()
+    {
+        base.FighterWin();
+        ResetSuperPunchParameters();
     }
 }

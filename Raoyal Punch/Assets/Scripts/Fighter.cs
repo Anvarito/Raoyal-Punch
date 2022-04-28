@@ -17,7 +17,7 @@ public abstract class Fighter : MonoBehaviour
     [Header("Hit points")]
     [SerializeField] protected HitPointBar HP_bar;
     [SerializeField] protected float HitPointsMax;
-    protected float HitPointsCurrent;
+    protected float _hitPointsCurrent;
 
     [Header("Punch")]
     [SerializeField] protected float AttackDistance;
@@ -50,7 +50,7 @@ public abstract class Fighter : MonoBehaviour
     }
     protected virtual void Start()
     {
-        HitPointsCurrent = HitPointsMax;
+        _hitPointsCurrent = HitPointsMax;
         HP_bar.SetValue(HitPointsMax.ToString());
 
         for (int i = 0; i < rigidbodies.Length; i++)
@@ -62,8 +62,14 @@ public abstract class Fighter : MonoBehaviour
 
     public virtual void ResetGame()
     {
+        _isfighterDown = false;
+        _animator.SetBool(_fightAnimID, false);
         ResetRagdoll();
+        _animator.enabled = true;
         HP_bar.SetValue(HitPointsMax.ToString());
+        _hitPointsCurrent = HitPointsMax;
+
+
     }
 
     protected virtual void Update()
@@ -78,12 +84,12 @@ public abstract class Fighter : MonoBehaviour
     protected abstract void Movement();
     protected void TakeHit(float hit)
     {
-        HitPointsCurrent -= hit;
-        HitPointsCurrent = Mathf.Clamp(HitPointsCurrent, 0, HitPointsMax);
-        float value = HitPointsCurrent / HitPointsMax;
-        HP_bar.ChangeValue(HitPointsCurrent.ToString(), value);
+        _hitPointsCurrent -= hit;
+        _hitPointsCurrent = Mathf.Clamp(_hitPointsCurrent, 0, HitPointsMax);
+        float value = _hitPointsCurrent / HitPointsMax;
+        HP_bar.ChangeValue(_hitPointsCurrent.ToString(), value);
 
-        if (HitPointsCurrent == 0 && !_isfighterDown)
+        if (_hitPointsCurrent == 0 && !_isfighterDown)
         {
             OnFighterDefeat?.Invoke(this);
             EnableRagdoll();
@@ -94,7 +100,7 @@ public abstract class Fighter : MonoBehaviour
     protected virtual void EnableRagdoll()
     {
         _isfighterDown = true;
-        _animator.SetBool(_fightAnimID, false);
+        _animator.Rebind();
         for (int i = 0; i < rigidbodies.Length; i++)
         {
             rigidbodies[i].isKinematic = false;
@@ -109,15 +115,14 @@ public abstract class Fighter : MonoBehaviour
 
     private void ResetRagdoll()
     {
-        _isfighterDown = false;
-        _animator.SetBool(_fightAnimID, false);
+        
         for (int i = 0; i < rigidbodies.Length; i++)
         {
             rigidbodies[i].isKinematic = true;
             rigidbodies[i].useGravity = false;
             colliders[i].enabled = false;
         }
-        _animator.enabled = true;
+        
         Hips.transform.parent = Armature.transform;
         Hips.transform.position = Vector3.zero;
     }
@@ -156,6 +161,8 @@ public abstract class Fighter : MonoBehaviour
 
     public virtual void FighterWin()
     {
-        _animator.SetBool(_fightAnimID, false);
+        _animator.Rebind();
+        _animator.enabled = false;
+        _animator.enabled = true;
     }
 }

@@ -7,6 +7,7 @@ public class ShokWaveVisual : MonoBehaviour
 {
     // Start is called before the first frame update
     public SpriteRenderer ShokWave;
+    public ParticleSystem SmokeParticles;
     public Material ShokWaveMat;
     private bool _isCircleGrow = false;
 
@@ -14,7 +15,8 @@ public class ShokWaveVisual : MonoBehaviour
     private float _duration = 2;
     void Start()
     {
-
+        ShokWave.material.SetFloat("_NearPlane", 0);
+        ShokWave.material.SetFloat("_FarPlane", 0);
     }
 
     // Update is called once per frame
@@ -41,9 +43,18 @@ public class ShokWaveVisual : MonoBehaviour
         _isCircleGrow = true;
     }
 
+    public void ResetAll()
+    {
+        ShokWave.material.SetFloat("_NearPlane", 0);
+        ShokWave.material.SetFloat("_FarPlane", 0);
+        _isCircleGrow = false;
+        _timer = 0;
+        SmokeParticles.Stop();
+    }
     internal void CircleHide()
     {
         ShokWave.material.SetFloat("_NearPlane", 0);
         ShokWave.material.SetFloat("_FarPlane", 0);
+        SmokeParticles.Play();
     }
 }
