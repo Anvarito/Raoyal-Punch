@@ -124,7 +124,7 @@ public abstract class Fighter : MonoBehaviour
         }
         
         Hips.transform.parent = Armature.transform;
-        Hips.transform.position = Vector3.zero;
+        Hips.transform.localPosition = Vector3.zero;
     }
 
     private void AttackChecker()
