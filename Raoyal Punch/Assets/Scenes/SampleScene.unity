@@ -508,7 +508,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 0.5, y: 1}
+    m_SensorSize: {x: 2, y: 1}
   m_Transitions:
     m_BlendHint: 2
     m_InheritPosition: 0
@@ -561,12 +561,12 @@ RectTransform:
   m_GameObject: {fileID: 312485538}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 5, y: 5, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 180231827}
   m_Father: {fileID: 1744840349}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -942,12 +942,12 @@ RectTransform:
   m_GameObject: {fileID: 382472984}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2143074846}
   m_Father: {fileID: 1744840349}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1021,7 +1021,7 @@ MonoBehaviour:
   VisibleTreshold: 0.2
   AnimSmoothTime: 0.1
   HP_bar: {fileID: 396914261}
-  HitPointsMax: 222
+  HitPointsMax: 100
   AttackDistance: 5
   HitPower: 10
   HeadRigidbody: {fileID: 7208261743508971336}
@@ -1748,7 +1748,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.00000000416875, y: 0.9886876, z: -0.14998963, w: 0.000000027479171}
+  m_LocalRotation: {x: 0.000000009547049, y: 0.9886876, z: -0.14998966, w: 0.000000062931335}
   m_LocalPosition: {x: -0.0000005630027, y: 5.6, z: -6.1699996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1816,12 +1816,12 @@ RectTransform:
   m_GameObject: {fileID: 1036346425}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2076268206}
   m_Father: {fileID: 1744840349}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2144,7 +2144,7 @@ MonoBehaviour:
   VisibleTreshold: 0.2
   AnimSmoothTime: 0.8
   HP_bar: {fileID: 1532844926}
-  HitPointsMax: 2
+  HitPointsMax: 100
   AttackDistance: 5
   HitPower: 10
   HeadRigidbody: {fileID: 7208261743209003008}
@@ -2192,7 +2192,7 @@ MonoBehaviour:
   HP_bar: {fileID: 1036346427}
   HpBarContent: {fileID: 2076268205}
   HP_text: {fileID: 160109332}
-  PositionMod: {x: 0, y: 120, z: 0}
+  PositionMod: {x: 0, y: 270, z: 0}
 --- !u!1 &1562399894
 GameObject:
   m_ObjectHideFlags: 0
@@ -7603,10 +7603,10 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 366690978}
-  - {fileID: 2929252285007088633}
   - {fileID: 1036346426}
   - {fileID: 382472985}
   - {fileID: 312485539}
+  - {fileID: 2929252285007088633}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7913,7 +7913,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 0.5, y: 1}
+    m_SensorSize: {x: 2, y: 1}
   m_Transitions:
     m_BlendHint: 2
     m_InheritPosition: 0
@@ -7929,7 +7929,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1987418430}
-  m_LocalRotation: {x: 0.00000000416875, y: 0.9886876, z: -0.14998963, w: 0.000000027479171}
+  m_LocalRotation: {x: 0.000000009547049, y: 0.9886876, z: -0.14998966, w: 0.000000062931335}
   m_LocalPosition: {x: -0.0000005630027, y: 5.6, z: -6.1699996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8884,10 +8884,10 @@ RectTransform:
   m_Children:
   - {fileID: 922832743}
   m_Father: {fileID: 1744840349}
-  m_RootOrder: 1
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0.25}
+  m_AnchorMax: {x: 0.25, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
